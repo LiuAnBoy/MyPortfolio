@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { graphql, useStaticQuery } from "gatsby";
 import { Box, Tabs, Tab, Typography } from "@material-ui/core";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 
 import Title from "./title";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: "100vw",
+    maxWidth: "100%",
     padding: "60px 0",
     backgroundColor: "#f1f5f8",
   },
@@ -18,6 +19,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     margin: "0 auto",
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "87.8vw",
+      flexDirection: "column",
+    },
   },
   tab: {
     fontSize: 16,
@@ -25,6 +33,15 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: 2,
     "&:hover": {
       color: "#2caeba",
+    },
+    [theme.breakpoints.down("xs")]: {
+      margin: " 0 auto",
+    },
+  },
+  tabs: {
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      margin: " 0 auto",
     },
   },
   position: {
@@ -63,10 +80,23 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     color: "#2caeba",
   },
+  tabpanel: {
+    paddingTop: 0,
+    marginLeft: "100px",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: "50px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      padding: "2vw",
+      margin: "60px auto 0",
+    },
+  },
 }));
 
 const TabPanel = props => {
   const { children, value, index, ...other } = props;
+  const classes = useStyles();
 
   return (
     <div
@@ -78,7 +108,10 @@ const TabPanel = props => {
       style={{ width: "100%", padding: "0" }}
     >
       {value === index && (
-        <Box p={3} style={{ paddingTop: 0, marginLeft: "100px" }}>
+        <Box
+          // p={3}
+          className={classes.tabpanel}
+        >
           {children}
         </Box>
       )}
@@ -107,17 +140,20 @@ const Experience = () => {
   } = data;
 
   const [value, setValue] = useState(0);
+  const [clientWidth, setClientWidth] = useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => setClientWidth(document.body.clientWidth <= 600));
 
   return (
     <section className={classes.root}>
       <Title title="Experience" />
       <div className={classes.experience}>
         <Tabs
-          orientation="vertical"
+          orientation={clientWidth ? "horizontal" : "vertical"}
           value={value}
           onChange={handleChange}
           aria-label="Vertical tabs example"
@@ -130,13 +166,14 @@ const Experience = () => {
                 label={item.company}
                 {...a11yProps(index)}
                 className={classes.tab}
+                key={index}
               />
             );
           })}
         </Tabs>
         {exp.map((item, index) => {
           return (
-            <TabPanel value={value} index={index}>
+            <TabPanel value={value} index={index} key={index}>
               <Typography variant="h5" className={classes.position}>
                 {item.position}
               </Typography>
@@ -146,7 +183,7 @@ const Experience = () => {
               </Typography>
               {item.description.map((des, index) => {
                 return (
-                  <div className={classes.desss}>
+                  <div className={classes.desss} key={index}>
                     <DoubleArrowIcon className={classes.icon} />
                     <Typography
                       variant="subtitle2"

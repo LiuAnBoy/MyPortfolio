@@ -12,6 +12,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    cursor: "pointer",
+    "&:hover": {
+      color: "#2caeba",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
 }));
 
@@ -19,10 +26,8 @@ const NavLink = () => {
   const classes = useStyles();
   return links.map(link => {
     return (
-      <div>
-        <div key={link.id} className={classes.font}>
-          {link.text}
-        </div>
+      <div key={link.id}>
+        <div className={classes.font}>{link.text}</div>
       </div>
     );
   });

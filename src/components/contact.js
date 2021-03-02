@@ -8,6 +8,8 @@ import Title from "./title";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: "100vw",
+    maxWidth: "100%",
     padding: "60px 0",
     backgroundColor: "#e0fcff",
   },

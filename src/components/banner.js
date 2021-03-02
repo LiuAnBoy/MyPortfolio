@@ -26,6 +26,12 @@ const useStyles = makeStyles(theme => ({
     left: "25%",
     transform: "translateY(-50%)",
     width: 500,
+    [theme.breakpoints.down('xs')]: {
+      width: "87.6vw",
+      position: "relative",
+      margin: "0 auto",
+      left: 0,
+    },
   },
   underline: {
     background: "#2caeba",
@@ -38,11 +44,17 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: 2,
     fontFamily: "Roboto, sans-serif",
     color: "#102a42",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 42,
+    },
   },
   subtitle: {
     letterSpacing: 2,
     fontWeight: 700,
     color: "#102a42",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14,
+    },
   },
   button: {
     backgroundColor: "#2caeba",
@@ -71,7 +83,7 @@ const Banner = () => {
           Hi, I'm Eric
         </Typography>
         <Typography variant="subtitle1" className={classes.subtitle}>
-          Freelance Front-End Develop and UI/UX Designer.
+          Freelance Front-End Developer and UI/UX Designer.
         </Typography>
         <Button className={classes.button}>Contact Me</Button>
       </div>

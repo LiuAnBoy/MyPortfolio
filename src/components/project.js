@@ -8,6 +8,8 @@ import { Button, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: "100vw",
+    maxWidth: "100%",
     padding: "60px 0",
     backgroundColor: "#fff",
   },
@@ -15,17 +17,28 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     gridTemplateColumns: "repeat(12, 1fr)",
     alignItems: "center",
-    width: "1170px",
+    width: "70%",
     margin: "0 auto 48px",
     "&:hover $image:after": {
       opacity: 0,
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      width: "89vw",
+      margin: "0 auto",
     },
   },
   image: {
     gridColumn: "1 / span 8",
     gridRow: "1 / 1",
-    height: "480px",
+    height: "420px",
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
+    borderRadius: 2,
     "&:after": {
       content: '""',
       position: "absolute",
@@ -37,6 +50,9 @@ const useStyles = makeStyles(theme => ({
       opacity: "0.85",
       transition: "all 0.3s linear",
     },
+    [theme.breakpoints.down("xs")]: {
+      height: "250px",
+    },
   },
   title: {
     marginBottom: "24px",
@@ -44,26 +60,51 @@ const useStyles = makeStyles(theme => ({
   },
   description: {
     marginBottom: "24px",
+    height: 80,
+    [theme.breakpoints.down("sm")]: {
+      height: 100,
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: 100,
+    },
   },
   info: {
     padding: "16px 32px",
     backgroundColor: "#fff",
-    gridColumn: "5 / 12",
+    gridColumn: "7 / 12",
     gridRow: "1 / 1",
     zIndex: 1,
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
-    position: "relative",
-    top: "80px",
+    borderRadius: 2,
+    fontFamily: "Roboto",
+    [theme.breakpoints.down("md")]: {
+      gridColumn: "6 / 12",
+    },
+    [theme.breakpoints.down("sm")]: {
+      gridColumn: "6 / span 12",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "25px",
+    },
   },
   info_even: {
     padding: "16px 32px",
     backgroundColor: "#fff",
-    gridColumn: "2 / span 7",
+    gridColumn: "2 / span 5",
     gridRow: "1 / 1",
     zIndex: 1,
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
-    position: "relative",
-    top: "80px",
+    borderRadius: 2,
+    fontFamily: "Roboto",
+    [theme.breakpoints.down("md")]: {
+      gridColumn: "2 / span 6",
+    },
+    [theme.breakpoints.down("sm")]: {
+      gridColumn: "1 / span 7",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "25px",
+    },
   },
   number: {
     display: "inline-block",
@@ -72,7 +113,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "14px",
   },
   tag: {
-    margin: "0 6px 0 0",
+    margin: "6px 6px 0 0",
     backgroundColor: "#dae2ec",
     color: "#617d98",
     padding: "6px 12px",
@@ -121,13 +162,16 @@ const project = () => {
           }
         };
         return (
-          <div className={classes.project}>
+          <div className={classes.project} key={index}>
             <Image
               fluid={image.fluid}
               className={classes.image}
-              style={even(index) ? { gridColumn: "5 / -1" } : ""}
+              style={even(index) ? { gridColumn: "5 / -1" } : {}}
             />
-            <div className={even(index) ? classes.info_even : classes.info}>
+            <div
+              key={index}
+              className={even(index) ? classes.info_even : classes.info}
+            >
               <span className={classes.number}>{contentfulid}.</span>
               <Typography variant="h4" className={classes.title}>
                 {projectName}

@@ -4,6 +4,8 @@ import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: "100vw",
+    maxWidth: "100%",
     padding: "20px 0",
     backgroundColor: "#222",
   },
@@ -13,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     "& > span": {
       color: "#2caeba",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 12,
     },
   },
 }));
