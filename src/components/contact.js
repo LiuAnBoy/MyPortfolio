@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     left: "50%",
     transform: "translateX(-50%)",
+    marginBottom: 40, 
     "&:hover": {
       backgroundColor: "#88ebf2",
       color: "#102a42",
@@ -38,8 +39,8 @@ const contact = () => {
   const data = useStaticQuery(query);
   return (
     <section className={classes.root}>
-      <Title title="Contact Us" />
-      <Button className={classes.button}>Contact Us</Button>
+      <Title title="Contact Me" />
+      <Button className={classes.button}>Contact Me</Button>
     </section>
   );
 };

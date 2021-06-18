@@ -22,11 +22,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NavLink = () => {
+const NavLink = ({ scrollToSection }) => {
   const classes = useStyles();
   return links.map(link => {
     return (
-      <div key={link.id}>
+      <div key={link.id} onClick={e => scrollToSection(e)}>
         <div className={classes.font}>{link.text}</div>
       </div>
     );

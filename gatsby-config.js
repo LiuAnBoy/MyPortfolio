@@ -39,5 +39,13 @@ module.exports = {
         allowList: ["CONTENTFUL_ACCESS_TOKEN"],
       },
     },
+    {
+      resolve: `gatsby-plugin-typescript`,
+      options: {
+        isTSX: true, // defaults to false
+        jsxPragma: `jsx`, // defaults to "React"
+        allExtensions: true, // defaults to false
+      },
+    },
   ],
 };

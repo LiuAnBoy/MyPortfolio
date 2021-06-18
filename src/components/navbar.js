@@ -4,11 +4,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { makeStyles } from "@material-ui/core/styles";
-import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import FormatAlignRightIcon from "@material-ui/icons/FormatAlignRight";
+import { globalHistory } from "@reach/router";
 
-import ScrollTop from "../components/scrolltop";
-import NavLink from "../constants/navlink";
-import SideBar from "../components/sidebar";
+import ScrollTop from "./scrollTop";
+import NavLink from "../constants/navLink";
+import SideBar from "./sidebar";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -48,11 +49,24 @@ const NavBar = props => {
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  const handleClick = e => {
+    const anchor = (e.target.ownerDocument || document).querySelector(
+      `#${e.target.textContent}-section`
+    );
+
+    const path = globalHistory.location.pathname;
+
+    if (anchor && path === "/") {
+      anchor.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div id="back-to-top-anchor" className={classes.root}>
       <AppBar className={classes.AppBar} elevation={0}>
         <Toolbar className={classes.Toolbar}>
-          <NavLink />
+          <NavLink scrollToSection={handleClick} />
         </Toolbar>
       </AppBar>
       <div onClick={handleOpen} className={classes.sidebarBtn}>

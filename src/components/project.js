@@ -13,13 +13,23 @@ const useStyles = makeStyles(theme => ({
     padding: "60px 0",
     backgroundColor: "#fff",
   },
+  container: {
+    width: 1440,
+    margin: "0 auto",
+    [theme.breakpoints.down("md")]: {
+      width: "inherit",
+    },
+  },
   project: {
     display: "grid",
     gridTemplateColumns: "repeat(12, 1fr)",
     alignItems: "center",
-    width: "70%",
+    width: "80%",
     margin: "0 auto 48px",
-    "&:hover $image:after": {
+    "&:hover $image_odd:after": {
+      opacity: 0,
+    },
+    "&:hover $image_even:after": {
       opacity: 0,
     },
     [theme.breakpoints.down("sm")]: {
@@ -33,8 +43,29 @@ const useStyles = makeStyles(theme => ({
       margin: "0 auto",
     },
   },
-  image: {
-    gridColumn: "1 / span 8",
+  image_odd: {
+    gridColumn: "7 / -1",
+    gridRow: "1 / 1",
+    height: "420px",
+    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
+    borderRadius: 2,
+    "&:after": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "linear-gradient(to bottom right, #2caeba, #222)",
+      opacity: "0.85",
+      transition: "all 0.3s linear",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "250px",
+    },
+  },
+  image_even: {
+    gridColumn: "1 / span 6",
     gridRow: "1 / 1",
     height: "420px",
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
@@ -68,10 +99,10 @@ const useStyles = makeStyles(theme => ({
       height: 100,
     },
   },
-  info: {
+  info_odd: {
     padding: "16px 32px",
     backgroundColor: "#fff",
-    gridColumn: "7 / 12",
+    gridColumn: "3 / span 5",
     gridRow: "1 / 1",
     zIndex: 1,
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
@@ -90,7 +121,7 @@ const useStyles = makeStyles(theme => ({
   info_even: {
     padding: "16px 32px",
     backgroundColor: "#fff",
-    gridColumn: "2 / span 5",
+    gridColumn: "6 / 11",
     gridRow: "1 / 1",
     zIndex: 1,
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
@@ -151,45 +182,56 @@ const project = () => {
     allContentfulProjects: { nodes: projects },
   } = data;
 
+  const validateSeq = (index, odd, even) => {
+    if ((index + 1) % 2 === 0) {
+      return even;
+    } else {
+      return odd;
+    }
+  };
+
   return (
-    <section className={classes.root}>
-      <Title title="Featured Projects" />
-      {projects.map((project, index) => {
-        const { contentfulid, projectName, description, tags, image } = project;
-        const even = index => {
-          if (index % 2 === 0) {
-            return true;
-          }
-        };
-        return (
-          <div className={classes.project} key={index}>
-            <Image
-              fluid={image.fluid}
-              className={classes.image}
-              style={even(index) ? { gridColumn: "5 / -1" } : {}}
-            />
-            <div
-              key={index}
-              className={even(index) ? classes.info_even : classes.info}
-            >
-              <span className={classes.number}>{contentfulid}.</span>
-              <Typography variant="h4" className={classes.title}>
-                {projectName}
-              </Typography>
-              <Typography variant="subtitle1" className={classes.description}>
-                {description}
-              </Typography>
-              {tags.map((tag, index) => {
-                return (
-                  <div className={classes.tag} key={tag.id}>
-                    {tag.tag}
-                  </div>
-                );
-              })}
+    <section className={classes.root} id="Projects-section">
+      <div className={classes.container}>
+        <Title title="Featured Projects" />
+        {projects.map((project, index) => {
+          const {
+            contentfulid,
+            projectName,
+            description,
+            tags,
+            image,
+          } = project;
+
+          return (
+            <div className={classes.project} key={index}>
+              <Image
+                fluid={image.fluid}
+                className={validateSeq(index, classes.image_odd, classes.image_even)}
+              />
+              <div
+                key={index}
+                className={validateSeq(index, classes.info_odd, classes.info_even)}
+              >
+                <span className={classes.number}>{contentfulid}.</span>
+                <Typography variant="h4" className={classes.title}>
+                  {projectName}
+                </Typography>
+                <Typography variant="subtitle1" className={classes.description}>
+                  {description}
+                </Typography>
+                {tags.map((tag, index) => {
+                  return (
+                    <div className={classes.tag} key={tag.id}>
+                      {tag.tag}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
       <Button className={classes.button}>More Projects</Button>
     </section>
   );

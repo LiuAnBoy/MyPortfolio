@@ -14,8 +14,18 @@ const useStyles = makeStyles(theme => ({
     padding: "60px 0",
     backgroundColor: "#f1f5f8",
   },
+  container: {
+    width: 1440,
+    margin: "0 auto",
+    [theme.breakpoints.down("md")]: {
+      width: "100vw",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "87.8vw",
+    },
+  },
   experience: {
-    width: "70%",
+    width: "75%",
     display: "flex",
     flexDirection: "row",
     margin: "0 auto",
@@ -73,8 +83,11 @@ const useStyles = makeStyles(theme => ({
   },
   description: {
     margin: "10px 30px",
-    fontSize: 14,
+    fontSize: 16,
     letterSpacing: 1,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 14,
+    },
   },
   icon: {
     fontSize: 12,
@@ -149,54 +162,56 @@ const Experience = () => {
   useEffect(() => setClientWidth(document.body.clientWidth <= 600));
 
   return (
-    <section className={classes.root}>
-      <Title title="Experience" />
-      <div className={classes.experience}>
-        <Tabs
-          orientation={clientWidth ? "horizontal" : "vertical"}
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          className={classes.tabs}
-          TabIndicatorProps={{ style: { backgroundColor: "#2caeba" } }}
-        >
+    <section className={classes.root} id="About-section">
+      <div className={classes.container}>
+        <Title title="Experience" />
+        <div className={classes.experience}>
+          <Tabs
+            orientation={clientWidth ? "horizontal" : "vertical"}
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            className={classes.tabs}
+            TabIndicatorProps={{ style: { backgroundColor: "#2caeba" } }}
+          >
+            {exp.map((item, index) => {
+              return (
+                <Tab
+                  label={item.company}
+                  {...a11yProps(index)}
+                  className={classes.tab}
+                  key={index}
+                />
+              );
+            })}
+          </Tabs>
           {exp.map((item, index) => {
             return (
-              <Tab
-                label={item.company}
-                {...a11yProps(index)}
-                className={classes.tab}
-                key={index}
-              />
+              <TabPanel value={value} index={index} key={index}>
+                <Typography variant="h5" className={classes.position}>
+                  {item.position}
+                </Typography>
+                <div className={classes.company_name}>{item.company}</div>
+                <Typography variant="subtitle1" className={classes.date}>
+                  {item.date}
+                </Typography>
+                {item.description.map((des, index) => {
+                  return (
+                    <div className={classes.desss} key={index}>
+                      <DoubleArrowIcon className={classes.icon} />
+                      <Typography
+                        variant="subtitle2"
+                        className={classes.description}
+                      >
+                        {des}
+                      </Typography>
+                    </div>
+                  );
+                })}
+              </TabPanel>
             );
           })}
-        </Tabs>
-        {exp.map((item, index) => {
-          return (
-            <TabPanel value={value} index={index} key={index}>
-              <Typography variant="h5" className={classes.position}>
-                {item.position}
-              </Typography>
-              <div className={classes.company_name}>{item.company}</div>
-              <Typography variant="subtitle1" className={classes.date}>
-                {item.date}
-              </Typography>
-              {item.description.map((des, index) => {
-                return (
-                  <div className={classes.desss} key={index}>
-                    <DoubleArrowIcon className={classes.icon} />
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.description}
-                    >
-                      {des}
-                    </Typography>
-                  </div>
-                );
-              })}
-            </TabPanel>
-          );
-        })}
+        </div>
       </div>
     </section>
   );
