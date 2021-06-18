@@ -27,7 +27,6 @@
     "gatsby-plugin-material-ui": "^2.1.10",
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-sharp": "^2.14.1",
-    "gatsby-plugin-typescript": "^3.3.0",
     "gatsby-source-contentful": "^4.5.0",
     "gatsby-source-filesystem": "^2.11.0",
     "gatsby-transformer-sharp": "^2.12.0",
