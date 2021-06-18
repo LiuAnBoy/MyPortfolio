@@ -33,7 +33,7 @@ const NavLink = ({ scrollToSection }) => {
   });
 };
 
-export const links = [
+export const links = [
   {
     id: 1,
     text: "Home",
